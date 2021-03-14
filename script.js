@@ -56,3 +56,27 @@ document.querySelector('#picker').addEventListener('change', function(e) {
     document.querySelector('.display').style.backgroundColor = paintColor;
     return paintColor;
 })
+
+document.querySelector('.save').addEventListener('click', function() {
+    let arr = [];
+    for (let i = 0; i < squares.length; i++) {
+        arr.push(getComputedStyle(squares[i]).backgroundColor)
+    }
+    function askName() {
+        let name = prompt('Name?', '');
+        if (name || name == null) localStorage.setItem(name, JSON.stringify(arr))
+        else askName();
+    }
+    askName();
+})
+
+document.querySelector('.load').addEventListener('click', function() {
+    let name = prompt('Which pic you want to load?', 0);
+    if (!localStorage.getItem(name)) alert("This image doesn't exist")
+    else {
+        let arr = JSON.parse(localStorage.getItem(name));
+        for (let i = 0; i < squares.length; i++) {
+            squares[i].style.backgroundColor = arr[i];
+        }
+    }
+})
